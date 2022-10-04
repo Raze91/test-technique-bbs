@@ -8,6 +8,7 @@ import { actionTypes } from './types'
 type AppState = {
   isInit: boolean
   theme: string
+  planets: any[]
 }
 
 //
@@ -17,6 +18,7 @@ type AppState = {
 const initialState: AppState = {
   isInit: false,
   theme: THEMES.DEFAULT,
+  planets: [],
 }
 
 //
@@ -28,6 +30,10 @@ const slice = createSlice({
   initialState,
   reducers: {
     init: () => undefined,
+    setPlanets: (state, action: actionTypes.setPlanets) => {
+      const { planets } = action.payload
+      state.planets = planets
+    },
     setIsInit: (state, action: actionTypes.setIsInit) => {
       const { isInit } = action.payload
       state.isInit = isInit
@@ -48,8 +54,10 @@ export const { reducer, actions } = slice
 const root = (state: RootState) => state[slice.name]
 const isInit = (state: RootState) => root(state).isInit
 const theme = (state: RootState) => root(state).theme
+const planets = (state: RootState) => root(state).planets
 
 export const selectors = {
   isInit,
   theme,
+  planets,
 }

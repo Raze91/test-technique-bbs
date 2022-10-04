@@ -13,12 +13,28 @@ export const Title = styled.h3`
   ${(props) => ({ ...props.theme.typography.h3 })}
   color: ${(props) => props.theme.palette.colors.midnightBlue};
   margin: 0rem 0 0.5rem 0;
+  padding: 10px;
 `
 
 export const Text = styled.p`
   ${(props) => ({ ...props.theme.typography.smallRegular })}
   color: ${(props) => props.theme.palette.colors.chambray};
   margin: 0rem 0 1rem 0;
+`
+
+export const PlanetCtnr = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  padding: 10px;
+  gap: 25px;
+
+  img {
+    width: 200px;
+  }
+`
+
+export const FilterForm = styled.form`
+  padding: 10px;
 `
 
 export const IconContainer = styled(Icon)``

@@ -58,6 +58,7 @@
     "@types/numeral": "^2.0.2",
     "@types/react-places-autocomplete": "^7.2.9",
     "autosuggest-highlight": "^3.1.1",
+    "axios": "^0.27.2",
     "chroma-js": "^2.1.2",
     "copy-to-clipboard": "^3.3.1",
     "cross-fetch": "^3.1.4",
