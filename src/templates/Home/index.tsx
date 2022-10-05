@@ -1,8 +1,17 @@
 import React, { FC, useState } from 'react'
-import { Card, CardContent, TextField } from '@material-ui/core'
+import {
+  Box,
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  CardMedia,
+  TextField,
+} from '@material-ui/core'
 
 import { PLANET_IMAGES } from '../../constants/images'
 import { useTypedSelector } from '../../redux/store'
+import { Icons } from '../../components/Icon/types'
 
 import * as SC from './styled'
 
@@ -31,17 +40,40 @@ const HomeTemplate: FC<HomeTemplateProps> = (props) => {
     <SC.Content>
       <SC.Title>{title}</SC.Title>
 
-      <SC.FilterForm>
-        <TextField variant="outlined" value={search} onChange={handleSearch} />
-      </SC.FilterForm>
+      <Box p={'10px 20px'}>
+        <TextField
+          variant="outlined"
+          size="small"
+          value={search}
+          onChange={handleSearch}
+          InputProps={{
+            endAdornment: <SC.IconContainer icon={Icons.search} />,
+          }}
+        />
+      </Box>
 
       <SC.PlanetCtnr>
         {filteredPlanets?.map((item, key) => (
           <Card key={key}>
+            <CardMedia
+              component="img"
+              image={images.filter((image) => image.name === item.name)[0]?.src}
+              alt={item.name}
+            />
             <CardContent>
-              <img src={images.filter((image) => image.name === item.name)[0]?.src} />
               <SC.Text>{item.name}</SC.Text>
             </CardContent>
+            <CardActions>
+              <Button
+                variant="contained"
+                size="large"
+                color="primary"
+                fullWidth
+                href={'/' + item.id}
+              >
+                Voir plus
+              </Button>
+            </CardActions>
           </Card>
         ))}
       </SC.PlanetCtnr>
