@@ -1,33 +1,33 @@
-import React, { FC, useEffect, useMemo, useState } from 'react'
+import React, { FC, useEffect } from 'react'
 import { RouteComponentProps } from 'react-router'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
+import { useDispatch } from 'react-redux'
 
-import PlanetDetailsTemplate, { PlanetDetailsProps } from '../../templates/PlanetDetails'
+import PlanetDetailsTemplate from '../../templates/PlanetDetails'
+import { actions } from '../../redux/index'
+import { useTypedSelector } from '../../redux/store'
+import { Planet } from '../../redux/app/redux'
 
-export type params = {
+type params = {
   id: string
 }
 
 const PlanetDetailsPage: FC<RouteComponentProps> = () => {
-  const [planet, setPlanet] = useState()
   const { id } = useParams<params>()
+  const dispatch = useDispatch()
+  const planet: Planet | null = useTypedSelector((state) => state.app.planet)
 
   useEffect(() => {
-    axios
-      .get('https://api.le-systeme-solaire.net/rest/bodies/' + id)
-      .then((result) => setPlanet(result.data))
-      .catch((error) => console.log(error))
-  }, [id])
+    if (planet === null || planet?.id !== id) {
+      axios
+        .get('https://api.le-systeme-solaire.net/rest/bodies/' + id)
+        .then((result) => dispatch(actions.app.setPlanet({ planet: result.data })))
+        .catch((error) => console.log(error))
+    }
+  }, [planet, id])
 
-  const templateProps: PlanetDetailsProps = useMemo(
-    () => ({
-      planet,
-    }),
-    [planet]
-  )
-
-  return <PlanetDetailsTemplate {...templateProps} />
+  return <PlanetDetailsTemplate />
 }
 
 export default PlanetDetailsPage

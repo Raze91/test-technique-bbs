@@ -2,25 +2,12 @@ import { Button } from '@material-ui/core'
 import React, { FC } from 'react'
 
 import { PLANET_IMAGES } from '../../constants/images'
+import { useTypedSelector } from '../../redux/store'
 
 import * as SC from './styled'
 
-type PlanetDetails = {
-  name: string
-  moons: any[]
-  englishName: string
-  discoveredBy: string
-  discoveryDate: string
-}
-
-export type PlanetDetailsProps = {
-  planet?: PlanetDetails
-}
-
-const PlanetDetailsTemplate: FC<PlanetDetailsProps> = (props) => {
-  const { planet } = props
-
-  console.log(planet)
+const PlanetDetailsTemplate: FC = () => {
+  const planet = useTypedSelector((state) => state.app.planet)
 
   return (
     <SC.Content>
@@ -35,7 +22,8 @@ const PlanetDetailsTemplate: FC<PlanetDetailsProps> = (props) => {
         <SC.Title>{planet?.name}</SC.Title>
         <SC.Text>Nom anglais : {planet?.englishName}</SC.Text>
         <SC.Text>
-          {planet?.name} est une planête possédant {planet?.moons?.length} lunes :
+          {planet?.name} est une planête possédant {planet?.moons?.length} lune
+          {planet?.moons?.length && planet?.moons?.length > 1 && 's'} :
         </SC.Text>
 
         <SC.MoonList>

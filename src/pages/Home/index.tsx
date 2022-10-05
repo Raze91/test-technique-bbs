@@ -1,25 +1,26 @@
-import React, { useMemo, useEffect, useState } from 'react'
+import React, { useMemo, useEffect } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
-import { useTranslation } from 'react-i18next'
 import { useDispatch } from 'react-redux'
 import axios from 'axios'
 
 import HomeTemplate, { HomeTemplateProps } from '../../templates/Home'
 import { actions } from '../../redux/index'
+import { useTypedSelector } from '../../redux/store'
 
 const DashboardPage: React.FC<RouteComponentProps> = () => {
-  const { t } = useTranslation()
-
   const dispatch = useDispatch()
+  const planets = useTypedSelector((state) => state.app.planets)
 
   useEffect(() => {
-    axios
-      .get('https://api.le-systeme-solaire.net/rest/bodies/?filter[]=isPlanet,eq,true')
-      .then((result) => {
-        dispatch(actions.app.setPlanets({ planets: result.data.bodies }))
-      })
-      .catch((error) => console.error(error))
-  }, [])
+    if (planets.length === 0) {
+      axios
+        .get('https://api.le-systeme-solaire.net/rest/bodies/?filter[]=isPlanet,eq,true')
+        .then((result) => {
+          dispatch(actions.app.setPlanets({ planets: result.data.bodies }))
+        })
+        .catch((error) => console.error(error))
+    }
+  }, [planets])
 
   const templateProps: HomeTemplateProps = useMemo(
     () => ({
